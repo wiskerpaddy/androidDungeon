@@ -1,0 +1,31 @@
+# --- Gradle ---
+.gradle/
+/build/
+/app/build/
+
+# --- IDE (Android Studio / IntelliJ) ---
+# プロジェクト固有の設定（共有すると他人の環境で動かなくなるもの）
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries/
+.idea/caches/
+.idea/modules.xml
+.idea/navEditor.xml
+*.iml
+
+# --- Local Environment ---
+# SDKのパスなど、自分のPC環境に依存する情報
+local.properties
+
+# --- OS / Logs ---
+.DS_Store
+/captures/
+*.log
+
+# --- Output ---
+# ビルドされたアプリ本体
+*.apk
+*.aab
