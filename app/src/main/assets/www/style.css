@@ -4,7 +4,7 @@
     #lang-selector { display: flex; gap: 5px; }
     .lang-btn { background: #222; border: 1px solid #444; color: #888; padding: 4px 10px; font-size: 12px; cursor: pointer; border-radius: 4px; }
     .lang-btn.active { border-color: #3f3; color: #3f3; background: #1a1a1a; }
-    .help-circle { width: 26px; height: 26px; border-radius: 50%; border: 1px solid #55a; background: #224; color: #88f; font-size: 16px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-weight: bold; }
+    .help-circle { width: 40px; height: 26px; border: 1px solid #55a; background: #224; color: #88f; font-size: 16px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-weight: bold; }
 
     #guide-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 10; color: #fff; padding: 20px; box-sizing: border-box; border: 2px solid #3f3; }
     .guide-title { font-size: 20px; color: #3f3; margin-bottom: 15px; font-weight: bold; }
@@ -59,7 +59,7 @@
 }
 
 /* 🏆と？のスタイルを統一する */
-.ach-circle, .help-circle {
+.ach-circle{
     /* 絶対配置の指定（position: absolute）がもし残っていたら削除してください */
     position: static !important; 
     
@@ -184,3 +184,23 @@
     display: flex; flex-direction: column; justify-content: center; font-size: 18px;
 }
 .hidden { visibility: hidden; }
+
+/* ヘルプ画面を最前面に */
+#help-overlay {
+    position: fixed; /* absoluteより安定します */
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 3000; /* 他のUIより上に */
+}
+
+/* 暗記モードのテキスト調整 */
+#card-q, #card-a {
+    line-height: 1.4;
+    padding: 10px;
+}
+
+small {
+    font-weight: bold;
+    letter-spacing: 1px;
+}

@@ -18,7 +18,8 @@
             </div>
             <div class="top-icons">
                 <div class="ach-circle" id="ach-btn" onclick="toggleAchievements()">🏆</div>
-                <div class="help-circle" onclick="openGuide()">?</div>
+                <div class="help-circle" onclick="openHelp()">Help</div>
+                <div class="help-circle" onclick="openGuide()">Title</div>
             </div>
         </div>
         <div id="ach-overlay" style="display:none;" onclick="toggleAchievements()">
@@ -29,10 +30,35 @@
             </div>
         </div>
 
-        <div id="guide-overlay" onclick="closeGuide()">
-            <div class="guide-title" id="g-title"></div>
-            <div class="guide-text" id="g-body"></div>
-            <div style="font-size:11px; color:#888;">Tap to Start / 画面をタップして開始</div>
+        <div id="guide-overlay">
+            <div class="guide-title" id="g-title">Shadow Rogue Dungeon</div>
+            <div class="guide-text" id="g-body">モードを選択してください</div>
+            
+            <div class="menu-buttons">
+                <button class="mode-btn" onclick="startStudyMode()">🗂 暗記カードモード</button>
+                <button class="mode-btn" onclick="startAdventureMode()">⚔ 冒険モード</button>
+            </div>
+        </div>
+
+        <div id="help-overlay" style="display:none;" onclick="closeHelp()">
+            <div class="ach-modal" onclick="event.stopPropagation()" style="border-color: #555;">
+                <h3 id="h-modal-title">Guide</h3>
+                <div id="h-modal-body" style="margin: 15px 0;"></div>
+                <button class="close-btn" onclick="closeHelp()">Close</button>
+            </div>
+        </div>
+
+        <div id="study-screen" style="display:none;" onclick="handleStudyClick()">
+            <div id="study-top">
+                <button class="lang-btn" onclick="backToMenu()">🏠 Menu</button>
+                <div id="study-progress">0 / 0</div>
+            </div>
+            <div id="card-display">
+                <div id="card-q">問題がここに表示されます</div>
+                <hr>
+                <div id="card-a" class="hidden">答えがここに表示されます</div>
+            </div>
+            <div class="study-footer">Tap or Enter to Flip / Next</div>
         </div>
 
         <div id="screen"></div>
@@ -48,6 +74,7 @@
             <div class="btn" id="down" onclick="handleInput(0, 1)">↓</div>
         </div>
     </div>
+    <script src="words.js"></script>
     <script src="config.js"></script>
     <script src="game.js"></script>
 </body>

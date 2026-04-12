@@ -1,6 +1,6 @@
-[
+const wordsDataFixed = [
     { "text": "TCP/IP", "hint": "Network Protocol" },
     { "text": "DNS", "hint": "Domain Name System" },
     { "text": "HTTP", "hint": "Hypertext Transfer Protocol" },
     { "text": "JSON", "hint": "JavaScript Object Notation" }
-]
+];

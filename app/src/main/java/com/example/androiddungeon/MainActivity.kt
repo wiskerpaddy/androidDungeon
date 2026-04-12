@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import android.webkit.WebSettings
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,11 +24,12 @@ class MainActivity : AppCompatActivity() {
             allowFileAccessFromFileURLs = true
             allowUniversalAccessFromFileURLs = true
             // --- ここまで追加 ---
+            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
 
         // リンクをタップした時にブラウザに飛ばないようにする
         webView.webViewClient = WebViewClient()
 
         // assets内のindex.htmlを読み込む
-        webView.loadUrl("file:///android_asset/index.html")    }
+        webView.loadUrl("file:///android_asset/www/index.html")    }
 }

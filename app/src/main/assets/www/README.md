@@ -6,24 +6,24 @@
 保存した index.html ファイルをブラウザで開くだけで、音と共に物語が始まります。
 対応: PC（キーボード）、スマートフォン（タッチ操作）
 推奨: 音声をONにして、ヘッドホン等でプレイすることをお勧めします。
-![alt text](READMEIMG/image.png)
+![alt text](../READMEIMG/image.png)
 ## 2. 画面の構成
 ### 上部ステータスバー（HUD）
 - **Lv / HP / ATK / FL:** あなたの現在の強さと階層を表示します。
 - **BGMコントロール (NEW!):** 画面右上の「🔊/🔇」ボタンで、探索BGMのオンオフを切り替えられます。
 
-![alt text](READMEIMG/image-9.png)
+![alt text](../READMEIMG/image-9.png)
 
 **中央（メイン画面）:**
 - **動的視界システム:** あなたの周囲数マス以外は暗闇です。歩くことで地形を記憶していきます。
 - **インタラクティブ・サウンド:** 壁にぶつかった音、アイテムを拾った音など、すべてシンセサイザーでリアルタイム生成されています。
 
-![alt text](READMEIMG/image-2.png)
+![alt text](../READMEIMG/image-2.png)
 
 - **下部ログ:**
 「攻撃した」「アイテムを拾った」などの行動結果がリアルタイムで表示されます。
 
-![alt text](READMEIMG/image-3.png)
+![alt text](../READMEIMG/image-3.png)
 
 - **矢印キー:**
 プレイヤーの移動を制御します。
@@ -32,7 +32,7 @@
 - **待機 (WAIT):** 敵を引きつけたい時や、その場でターンを消費したい時に使用します。
 - **ワープ (WARP):** 【今作の新要素】 HPを5消費して、フロア内のどこかへランダムに転送されます。囲まれた時の緊急脱出に有効です。
 
-![alt text](READMEIMG/image-4.png)
+![alt text](../READMEIMG/image-4.png)
 
 ## 4. 記号（エンティティ）の説明
 - 「@」 : 奏者（あなた）。
@@ -40,19 +40,19 @@
 - 「#」 : 壁。移動できません。
 - 「>」 : 階段。次のフロアへ進みます。
 
-![alt text](READMEIMG/image-5.png)
+![alt text](../READMEIMG/image-5.png)
 
 - 「L」: リード（回復）。拾うとHPが12回復します。
 
-![alt text](READMEIMG/image-8.png)
+![alt text](../READMEIMG/image-8.png)
 
 - 「r, A, e」 : モンスター。階層が深くなるほど不協和音が増し、強力な個体が登場します。
 
-![alt text](READMEIMG/image-7.png)
+![alt text](../READMEIMG/image-7.png)
 
 - 「Ω」 : 古の指揮者（ボス）。5Fで待ち構える最終試練です。
 
-![alt text](READMEIMG/image-6.png)
+![alt text](../READMEIMG/image-6.png)
 
 ## 5. ゲームの目的
 モンスターとの戦闘を切り抜け、レベルを上げながら地下深くを目指してください。第5階層（5F）に君臨するボス「Ω」を撃破すればゲームクリア、伝説の奏者となります。
@@ -84,8 +84,8 @@
 
 # ゲームサイクル・フロー図
 1ターンの処理の流れを可視化しました。
-![alt text](READMEIMG/README_flowDiagram.png)
+![alt text](../READMEIMG/README_flowDiagram.png)
 
 ### 状態遷移図（ゲーム開始から終了まで）
-![alt text](READMEIMG/README_stateChageImage.png)
+![alt text](../READMEIMG/README_stateChageImage.png)
 

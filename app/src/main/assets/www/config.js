@@ -100,8 +100,21 @@ let monsterEncyclopedia = JSON.parse(localStorage.getItem('rogue_encyclopedia'))
  */
 const i18n = {
     ja: {
-        gTitle: "迷宮ガイド", 
-        gBody: "【目的】5Fの指揮者を倒せ<br>【HP】命の息吹。0で終了<br>【移動】矢印で移動・攻撃<br>【待機】その場で1ターン経過<br>【ワープ】HPを5消費してランダム転送",
+        gTitle: "StudyingDungeon",
+        gBody: "挑戦するモードを選択してください",
+        // ヘルプ専用テキスト
+        hTitle: "探索ガイド",
+        hContent: `
+            <div style="text-align:left; font-size:14px;">
+                <p style="color:#ff5;"><b>【基本操作】</b></p>
+                <p>・移動/攻撃: 矢印キー または 画面ボタン</p>
+                <p>・待機: 5キー または WAITボタン</p>
+                <p style="color:#ff5; margin-top:10px;"><b>【特殊アクション】</b></p>
+                <p>・WARP: HPを消費してランダム転送</p>
+                <p>・暗記: Tap または Enter で次へ</p>
+            </div>
+        `,
+        
         start: "演奏を開始します。", 
         bossNear: "不穏な旋律が近づいている...",
         wall: "壁にはね返された。", 
@@ -125,8 +138,20 @@ const i18n = {
     },
     /* 英語定義 */
     en: {
-        gTitle: "GUIDE", 
-        gBody: "Goal: Defeat boss on 5F<br>HP: Life breath. 0 = End<br>Move: Arrows to move/attack<br>Wait: Stay 1 turn<br>Warp: Spend 5 HP to teleport",
+            gTitle: "StudyingDungeon",
+            gBody: "Select game mode",
+            hTitle: "GUIDE",
+            hContent: `
+                <div style="text-align:left; font-size:14px;">
+                    <p style="color:#ff5;"><b>[Controls]</b></p>
+                    <p>・Move/Attack: Arrows or Buttons</p>
+                    <p>・Wait: 5 key or WAIT button</p>
+                    <p style="color:#ff5; margin-top:10px;"><b>[Actions]</b></p>
+                    <p>・WARP: Spend HP to teleport</p>
+                    <p>・Study: Tap or Enter to flip/next</p>
+                </div>
+            `,
+        
         start: "Performance start.", 
         bossNear: "An ominous melody approaches...",
         wall: "It's a wall.", 
@@ -148,30 +173,52 @@ const i18n = {
         win: "Legend Soloist!", 
         lose: "Music stopped..."
     },
-        /* スペイン語定義 */
+    /* スペイン語定義 */
     es: {
-        gTitle: "GUÍA", 
-        gBody: "Meta: Vencer jefe en 5F<br>HP: Vida. 0 = Fin<br>Mover: Flechas para atacar<br>Espera: 1 turno quieto<br>Warp: Gasta 5 HP para teleport",
-        start: "Empieza la función.", 
-        bossNear: "Melodía inquietante cerca...",
+        gTitle: "Shadow Rogue Dungeon", // タイトルは共通が格好良いです
+        gBody: "Selecciona el modo de juego",
+        
+        // ヘルプ・ボタン関連
+        helpBtnText: "Ayuda", // 画像の "HelpTitle" に相当する場所
+        hTitle: "Guía de Exploración",
+        hContent: `
+            <div style="text-align:left; font-size:14px;">
+                <p style="color:#ff5;"><b>[Controles]</b></p>
+                <p>・Mover/Atacar: Flechas o Botones</p>
+                <p>・Esperar: Tecla 5 o botón WAIT</p>
+                <p style="color:#ff5; margin-top:10px;"><b>[Acciones]</b></p>
+                <p>・WARP: Teletransporte (consume HP)</p>
+                <p>・Repaso: Tap o Enter para girar/siguiente</p>
+            </div>
+        `,
+
+        // ログ・メッセージ
+        start: "Comienza la función.", 
+        bossNear: "Una melodía inquietante resuena...",
         wall: "Es un muro.", 
         potion: "¡HP recuperado!",
-        stairs: "Piso siguiente... ({d}F)", 
-        lvup: "¡Nivel sube! (Lv{l})",
-        attack: "¡Ataca a {n}! {dmg}", 
-        defeat: "Venciste a {n}.",
-        damaged: "¡{n} ataca! {dmg}", 
-        warp: "¡Teletransportado!",
+        stairs: "Siguiente piso... ({d}F)", 
+        lvup: "¡Subes de nivel! (Lv{l})",
+        attack: "¡Atacas a {n}! (DMG: {dmg})", 
+        defeat: "Derrotaste a {n}.",
+        damaged: "¡{n} te ataca! (DMG: {dmg})", 
+        warp: "¡Te has teletransportado!",
+
+        // ステータス・UI
         hp: "HP", 
         atk: "ATQ", 
         floor: "PISO", 
         wait: "ESPERA", 
-        warpBtn: "DEFORMA",
-        shockBtn: "IMPULSO",
-        mNames: ["Rata Ruido", "Armadura Discord", "Ojo Silencio"], 
-        bName: "Director Antiguo",
-        win: "¡Solista de leyenda!", 
-        lose: "Música detenida..."
+        warpBtn: "SALTO",   // WARPのボタン用
+        shockBtn: "ONDA",   // SHOCKWAVEのボタン用
+        
+        // モンスター・ボス
+        mNames: ["Rata de Ruido", "Armadura Discorde", "Ojo de Silencio"], 
+        bName: "El Antiguo Director",
+
+        // ゲームクリア・オーバー
+        win: "¡Te has convertido en un solista de leyenda!", 
+        lose: "La música se ha detenido..."
     }
 };
 
