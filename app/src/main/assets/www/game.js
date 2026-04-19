@@ -853,3 +853,18 @@ function toggleAddMode(show) {
         document.getElementById('g-body').textContent = "モードを選択してください";
     }
 }
+
+function addWordToAndroid() {
+    const f = document.getElementById('word-front').value;
+    const b = document.getElementById('word-back').value;
+    if (!f || !b) return alert("入力してください");
+
+    if (window.AndroidApp) {
+        window.AndroidApp.saveWord(JSON.stringify({text: f, hint: b}));
+        EXAM_WORDS_DATA.push({text: f, hint: b});
+        alert("保存しました");
+        // 入力欄をクリア
+        document.getElementById('word-front').value = "";
+        document.getElementById('word-back').value = "";
+    }
+}
