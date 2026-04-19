@@ -57,9 +57,10 @@ class MainActivity : AppCompatActivity() {
 // 1. 保存用のインターフェースを定義
 class WebAppInterface(private val context: Context) {
     @JavascriptInterface
-    fun saveWord(json: String) {
-        // 内部ストレージの「words.json」などに追記・保存する処理
-        val file = File(context.filesDir, "custom_words.json")
-        file.writeText(json)
+    fun saveWord(jsonString: String) {
+        // アプリ専用の領域に「added_words.json」として保存
+        val file = File(context.filesDir, "added_words.json")
+        // 既存のデータがあれば末尾に追加、なければ新規作成（簡易的な実装例）
+        file.appendText("$jsonString\n")
     }
 }
