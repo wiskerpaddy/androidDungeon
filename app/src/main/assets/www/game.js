@@ -842,3 +842,14 @@ function closeAddWordMode() {
     document.getElementById('add-word-screen').style.display = 'none';
     document.getElementById('guide-overlay').style.display = 'flex';
 }
+
+function toggleAddMode(show) {
+    document.getElementById('menu-area').style.display = show ? 'none' : 'block';
+    document.getElementById('add-mode-area').style.display = show ? 'block' : 'none';
+    
+    if(show) {
+        document.getElementById('g-body').textContent = "単語追加"; // タイトル下の文字を変更
+    } else {
+        document.getElementById('g-body').textContent = "モードを選択してください";
+    }
+}
