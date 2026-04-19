@@ -9,12 +9,12 @@
 </head>
 <body>
     <div id="game-container">
-        <button id="mute-btn" class="lang-btn" onclick="toggleMute()">🔊</button>
         <div id="top-bar">
             <div class="lang-selector">
                 <button id="btn-ja" class="lang-btn" onclick="setLang('ja')">JP</button>
                 <button id="btn-en" class="lang-btn" onclick="setLang('en')">EN</button>
                 <button id="btn-es" class="lang-btn" onclick="setLang('es')">ES</button>
+                <button id="mute-btn" class="lang-btn" onclick="toggleMute()">🔊</button>
             </div>
             <div class="top-icons">
                 <div class="ach-circle" id="ach-btn" onclick="toggleAchievements()">🏆</div>
@@ -41,7 +41,6 @@
         </div>
                 
         <div id="main-area">
-            <div id="hud"></div>
             <div id="screen"></div>
             <div id="collection-container">
                 <div id="collection-header">【 LEARNED 】</div>
