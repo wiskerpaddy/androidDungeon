@@ -413,7 +413,7 @@ function draw() {
         view += "\n";
     }
     
-    screen.innerHTML = hud + view;
+    hud.innerHTML = hud + view;
     updateLogUI(T);
 }
 
