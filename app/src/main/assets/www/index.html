@@ -39,6 +39,14 @@
                 <button class="mode-btn" onclick="startAdventureMode()">⚔ 冒険モード</button>
             </div>
         </div>
+                
+        <div id="main-area">
+            <div id="screen"></div>
+            <div id="collection-container">
+                <div id="collection-header">【 LEARNED 】</div>
+                <div id="collection-list"></div>
+            </div>
+        </div>
 
         <div id="help-overlay" style="display:none;" onclick="closeHelp()">
             <div class="ach-modal" onclick="event.stopPropagation()" style="border-color: #555;">
@@ -61,7 +69,7 @@
             <div class="study-footer">Tap or Enter to Flip / Next</div>
         </div>
 
-        <div id="screen"></div>
+        <!-- <div id="screen"></div> -->
         <div id="log"></div>
         
         <div id="controls">

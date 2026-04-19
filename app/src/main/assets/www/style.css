@@ -1,17 +1,73 @@
-    body { background-color: #0a0a0a; color: #d1d1d1; font-family: 'Consolas', 'Monaco', 'Courier New', monospace; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; margin: 0; user-select: none; touch-action: manipulation; }
-    #game-container { position: relative; text-align: center; border: 2px solid #444; padding: 10px; background-color: #000; width: 95%; max-width: 450px; }
-    #top-bar { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px; }
+    body {
+        background-color: #0a0a0a; 
+        color: #d1d1d1; 
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: flex-start;
+        align-items: center; 
+        min-height: 100vh; 
+        margin: 0; 
+        user-select: none; 
+        touch-action: manipulation; 
+        padding-top: 20px;
+    }
     #lang-selector { display: flex; gap: 5px; }
     .lang-btn { background: #222; border: 1px solid #444; color: #888; padding: 4px 10px; font-size: 12px; cursor: pointer; border-radius: 4px; }
     .lang-btn.active { border-color: #3f3; color: #3f3; background: #1a1a1a; }
-    .help-circle { width: 40px; height: 26px; border: 1px solid #55a; background: #224; color: #88f; font-size: 16px; display: flex; justify-content: center; align-items: center; cursor: pointer; font-weight: bold; }
-
+    /* 既存の .help-circle を修正 */
+    .help-circle {
+        width: auto;             /* 固定幅(40px)をやめて自動に */
+        min-width: 45px;         /* 最低限の幅を確保 */
+        padding: 0 5px;          /* 左右に余白を足す */
+        height: 26px;
+        border: 1px solid #55a;
+        background: #224;
+        color: #88f;
+        font-size: 12px;         /* 文字を少し小さくして収まりを良くする */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-weight: bold;
+    }
     #guide-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 10; color: #fff; padding: 20px; box-sizing: border-box; border: 2px solid #3f3; }
     .guide-title { font-size: 20px; color: #3f3; margin-bottom: 15px; font-weight: bold; }
     .guide-text { font-size: 13px; line-height: 1.5; margin-bottom: 25px; text-align: left; }
 
-    #screen { font-size: 14px; line-height: 1.1; letter-spacing: 1px; white-space: pre; margin-bottom: 10px; color: #3f3; min-height: 250px; font-weight: bold; }
-    #log { height: 85px; overflow-y: hidden; font-size: 12px; color: #888; text-align: left; border-top: 1px solid #222; padding-top: 5px; }
+    #screen {
+        letter-spacing: 1px; 
+        margin-bottom: 10px;
+        margin: 10px auto;
+        color: #3f3; 
+        font-weight: bold; 
+        
+        white-space: pre; 
+        width: 240px;
+        min-height: 250px; 
+        font-size: 14px; 
+        line-height: 1.1; 
+    }
+
+    #game-container { 
+        position: relative; 
+        text-align: center; 
+        border: 2px solid #444; 
+        background-color: #000; width: 95%; 
+        max-width: 450px; 
+        padding: 10px;
+    }
+
+    #log { 
+        height: 85px; 
+        overflow-y: hidden; 
+        font-size: 12px; 
+        color: #888; 
+        text-align: left; 
+        border-top: 1px solid #222; 
+        padding-top: 5px; 
+        margin-top: 5px;   /* ログの上の隙間も少し詰める */
+    }
     
     #controls { display: grid; grid-template-columns: repeat(3, 75px); grid-template-rows: repeat(3, 75px); gap: 10px; margin-top: 15px; justify-content: center; }
     .btn { width: 75px; height: 75px; background-color: #222; border: 1px solid #555; color: white; display: flex; justify-content: center; align-items: center; border-radius: 8px; cursor: pointer; font-size: 18px; }
@@ -203,4 +259,106 @@
 small {
     font-weight: bold;
     letter-spacing: 1px;
+}
+
+/* 親要素をフレックスボックスにして横並びに */
+#main-area {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    max-width: 430px; /* 450pxのコンテナ内に収まるサイズに変更 */
+    margin: 0 auto;
+}
+
+
+/* コレクションエリアの設定 */
+#collection-container {
+    flex: 1;        
+    height: 250px;  /* screenの高さに合わせる */
+    overflow-y: auto; 
+    border: 1px solid #444;
+    padding: 5px;
+    background: #000;
+    text-align: left;
+    font-size: 10px; /* 文字を少し小さくして収まりを良くする */
+    color: #0f0;
+    margin: 10px auto;
+}
+
+#collection-list {
+    display: flex;
+    flex-direction: column; /* 横並びではなく縦に並べたほうが「リスト」感が出ます */
+    gap: 3px;
+    margin-top: 5px;
+}
+
+/* style.css の @media 部分を以下に差し替え */
+@media (max-width: 450px) {
+    #game-container {
+        padding: 0 5px 5px 5px; /* 上のパディングを0に */
+        padding-top: calc(env(safe-area-inset-top) + 15px);
+        max-width: 100%;
+        height: 100dvh; /* 画面の高さ100%に固定 */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+    }
+
+    #top-bar {
+        gap: 5px; /* ボタン同士の隙間を詰める */
+    }
+
+    #main-area {
+        flex-direction: column; 
+        gap: 5px;
+        flex: 1; /* マップとスコアが余った領域を埋める */
+        overflow: hidden;
+    }
+
+    #screen {
+        font-size: 11px; /* マップをさらに一回り小さくして高さを稼ぐ */
+        line-height: 1.0;
+        min-height: auto;
+        margin-bottom: 0;
+        margin-top: -5px;
+    }
+
+    #collection-container {
+        height: 35px; /* 習得リストを横一行のバーにする */
+        border: none;
+        border-bottom: 1px solid #222;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+    }
+
+    #collection-list {
+        display: inline-flex;
+        flex-direction: row !important;
+        gap: 8px;
+        font-size: 10px;
+    }
+
+    #log {
+        height: 45px; /* ログを2行分くらいに凝縮 */
+        font-size: 10px;
+    }
+
+    /* ボタンのサイズと配置の最適化 */
+    #controls {
+        grid-template-columns: repeat(3, 65px); /* 横幅を少し狭める */
+        grid-template-rows: repeat(3, 45px);    /* 高さをグッと低くする */
+        gap: 4px;
+        margin-top: 5px;
+        margin-bottom: env(safe-area-inset-bottom); /* iPhoneなどの下部バー対策 */
+    }
+
+    .btn {
+        width: 100%;
+        height: 100%;
+        font-size: 13px;
+    }
 }

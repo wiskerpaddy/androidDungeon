@@ -1,4 +1,4 @@
-const wordsDataFixed = [
+const EXAM_WORDS_DATA = [
     { "text": "TCP/IP", "hint": "Network Protocol" },
     { "text": "DNS", "hint": "Domain Name System" },
     { "text": "HTTP", "hint": "Hypertext Transfer Protocol" },

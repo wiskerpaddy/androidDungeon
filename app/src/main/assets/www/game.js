@@ -13,6 +13,10 @@ function startAdventureMode() {
     // 1. 画面の切り替え
     document.getElementById('guide-overlay').style.display = 'none';
     
+    // words.js で定義した変数を代入
+    wordsData = EXAM_WORDS_DATA;
+    console.log("words.js からデータを読み込みました:", wordsData);
+
     // 2. AudioContextの初期化と再開 (重要！)
     handleAudioResume();
 
@@ -24,29 +28,22 @@ function startAdventureMode() {
     }
 }
 
-async function startStudyMode() {
-    // 画面切り替え
+// --- 暗記モード開始処理 (asyncを外して同期処理に) ---
+function startStudyMode() {
+// 1. 他の画面（タイトル）を隠して、暗記画面を出す
     document.getElementById('guide-overlay').style.display = 'none';
     document.getElementById('study-screen').style.display = 'flex';
 
-    try {
-        // words.json を読み込む
-        const response = await fetch('words.json');
-        if (!response.ok) throw new Error('Network response was not ok');
-        
-        wordsData = await response.json();
-        console.log("読み込み成功:", wordsData);
-        
-        currentCardIdx = 0;
-        showCard();
-    } catch (error) {
-        console.error("JSON読み込み失敗:", error);
-        // 失敗した時のフォールバック（予備データ）
-        wordsData = [
-            { q: "JSONが読み込めませんでした", a: "サーバー(Live Server等)を起動しているか確認してください" }
-        ];
-        showCard();
-    }
+    // 2. 【ここを追加！】冒険用のログとボタンを隠す
+    document.getElementById('log').style.display = 'none';
+    document.getElementById('controls').style.display = 'none';
+    
+    // words.js で定義した変数を代入
+    wordsData = EXAM_WORDS_DATA;
+    console.log("words.js からデータを読み込みました:", wordsData);
+    
+    currentCardIdx = 0;
+    showCard();
 }
 
 // --- オーディオ再開用の共通関数 ---
@@ -343,8 +340,24 @@ function setupLevel() {
     for (let i = 0; i < 3 + gameState.depth; i++) {
         const mPos = findEmptyFloor();
         const typeIdx = Math.min(gameState.depth - 1, 2);
-        gameState.monsters.push({ typeIndex: typeIdx, tile: ['r','A','e'][typeIdx], hp: 10 * gameState.depth, atk: 3 * gameState.depth, color: CONFIG.APPEARANCE.MONSTER.color, x: mPos.x, y: mPos.y });
-        gameState.map[mPos.y][mPos.x] = T.MONSTER_GENERIC;
+        
+        let wordData = { text: "TCP/IP", hint: "Network Protocol" }; // デフォルト値
+        if (wordsData!== 'undefined' && wordsData.length > 0) {
+            wordData = wordsData[Math.floor(Math.random() * wordsData.length)];
+        }  
+        gameState.monsters.push({ 
+            typeIndex: typeIdx, 
+            tile: ['r','A','e'][typeIdx], 
+            hp: 10 * gameState.depth, 
+            atk: 3 * gameState.depth, 
+            color: CONFIG.APPEARANCE.MONSTER.color, 
+            x: mPos.x, 
+            y: mPos.y,
+            // ここに追加
+            studyText: wordData.text,
+            studyHint: wordData.hint 
+        });
+        gameState.map[mPos.y][mPos.x] = CONFIG.TILES.MONSTER_GENERIC;
     }
     const itemPos = findEmptyFloor();
     gameState.map[itemPos.y][itemPos.x] = T.POTION;
@@ -445,19 +458,43 @@ function movePlayer(nx, ny, tile) {
 }
 
 function combat(nx, ny) {
+    const mIndex = gameState.monsters.findIndex(m => m.x === nx && m.y === ny);
+    if (mIndex === -1) return;
+    const m = gameState.monsters[mIndex];
+    
     playEffect(SOUND_DATA.PLAYER_ATTACK);
-    const m = gameState.monsters.find(m => m.x === nx && m.y === ny);
-    if (!m) return; // 念のため
+    // ログ表示
+    const sText = m.studyText || "Unknown";
+    const sHint = m.studyHint || "No Hint";
+    
+    // 他の箇所で「ノイズ」のようなテキストが入らないよう、addLogを「checkAnswer」タイプで固定
+    if (typeof addLog === 'function') {
+        addLog('checkAnswer', 'log-system', { 
+            studyText: sText, 
+            studyHint: sHint 
+        });
+    }
 
+    if (!gameState.collection) gameState.collection = {};
+    if (!gameState.collection[sText]) {
+        gameState.collection[sText] = 0;
+    }
+
+    gameState.collection[sText]++;
     const dmg = gameState.player.atk + Math.floor(Math.random()*5);
     m.hp -= dmg;
     addLog('attack', 'log-player', { nIsMonster: true, monsterObj: m, dmg: dmg });
 
     if (m.hp <= 0) {
-        // --- 図鑑登録処理 ---
-        const mName = i18n[curLang].mNames[m.typeIndex] || (m.isBoss ? i18n[curLang].bName : "Unknown");
-        monsterEncyclopedia[mName] = (monsterEncyclopedia[mName] || 0) + 1;
-        localStorage.setItem('rogue_encyclopedia', JSON.stringify(monsterEncyclopedia));
+         // --- コレクションに追加 ---
+        const word = m.studyText;
+        if (!gameState.collection[word]) {
+            gameState.collection[word] = 0;
+        }
+        gameState.collection[word]++;
+        
+        // UIを更新
+        updateCollectionUI();
         
         if (Object.keys(monsterEncyclopedia).length >= 3) {
             checkAchievements();
@@ -474,7 +511,7 @@ function combat(nx, ny) {
         }
 
         playEffect(SOUND_DATA.DEFEATED);
-        addLog('defeat', 'log-system', { nIsMonster: true, monsterObj: m });
+        // addLog('defeat', 'log-system', { nIsMonster: true, monsterObj: m });
         
         // 敵を除去
         gameState.map[ny][nx] = CONFIG.TILES.FLOOR;
@@ -492,7 +529,14 @@ function monstersTurn() {
             const dmg = Math.max(1, m.atk - Math.floor(Math.random()*3));
             gameState.player.hp -= dmg;
             playEffect(m.isBoss ? SOUND_DATA.BOSS_ATTACK : SOUND_DATA.ENEMY_ATTACK);
-            addLog('damaged', 'log-enemy', { nIsMonster: true, monsterObj: m, dmg: dmg });
+            
+            // --- ここをカスタマイズ ---
+            // ログに「問題」として単語とヒントを出す
+            addLog('enemyAttack', 'log-enemy', { 
+                studyText: m.studyText, 
+                firstChar: m.studyText.charAt(0), // 最初の1文字を渡す
+                dmg: dmg 
+            });            
             if (gameState.player.hp <= 0) endGame(false);
         } else {
             moveMonsterRandomly(m);
@@ -574,18 +618,41 @@ function updateVision() {
 
 // --- 7. UI制御とイベント ---
 function addLog(key, type, params = {}) { gameState.log.push({ key, type, params }); }
-function updateLogUI(T) {
-    const logDiv = document.getElementById('log');
-    logDiv.innerHTML = "";
-    gameState.log.slice(-4).forEach(entry => {
-        let msg = T[entry.key] || entry.key;
-        if (entry.params.nIsMonster) {
-            const m = entry.params.monsterObj;
-            msg = msg.replace(`{n}`, m.isBoss ? T.bName : T.mNames[m.typeIndex]);
+function updateLogUI(translations) {
+    const logContainer = document.getElementById('log');
+    
+    // 1. ログ表示エリアを一旦空にする
+    logContainer.innerHTML = "";
+
+    // 2. 最新の4件だけを取り出す
+    // gameState.log の後ろから4つを「表示用リスト」としてコピー
+    const recentLogs = gameState.log.slice(-4);
+
+    // 3. 1つずつのログを画面用の文字に変換して表示
+    recentLogs.forEach(logData => {
+        let message = translations[logData.key] || logData.key;
+        const info = logData.params;
+
+        // 冒険モードでは敵の名前を出さないのでコメントアウト
+        // if (info.nIsMonster) {
+        //     const monster = info.monsterObj;
+        //     // ボスならボス名、雑魚なら種別名を取得
+        //     const monsterName = monster.isBoss ? translations.bName : translations.mNames[monster.typeIndex];
+        //     // {n} という文字を実際のモンスター名に置換
+        //     message = message.replace("{n}", monsterName);
+        // }
+
+        // 5. その他のパラメータ（ダメージ量 {dmg} など）をすべて数字に置き換える
+        for (let key in info) {
+            message = message.replace(`{${key}}`, info[key]);
         }
-        Object.keys(entry.params).forEach(k => msg = msg.replace(`{${k}}`, entry.params[k]));
-        const d = document.createElement('div'); d.className = entry.type; d.textContent = msg;
-        logDiv.appendChild(d);
+
+        // 6. 画面に新しい行（div）として追加する
+        const logLine = document.createElement('div');
+        logLine.className = logData.type; // CSSクラス（log-player, log-enemyなど）を設定
+        logLine.textContent = message;    // 組み立てた文章を入れる
+        
+        logContainer.appendChild(logLine);
     });
 }
 
@@ -744,4 +811,21 @@ function updateHelpText() {
     if (helpTitle) helpTitle.textContent = T.helpTitle || "GUIDE";
     // i18nに新しく定義する helpContent を流し込む
     if (helpBody) helpBody.innerHTML = T.helpContent || T.gBody; 
+}
+
+function updateCollectionUI() {
+    const listDiv = document.getElementById('collection-list');
+    if (!listDiv) return;
+    listDiv.innerHTML = "";
+    
+    // --- 修正ポイント：ガード処理 ---
+    if (!gameState.collection || typeof gameState.collection !== 'object') return;
+
+    Object.keys(gameState.collection).sort().forEach(word => {
+        const item = document.createElement('div');
+        item.style.padding = "4px";
+        item.style.borderBottom = "1px solid #333";
+        item.textContent = `★ ${word} (${gameState.collection[word]})`;
+        listDiv.appendChild(item);
+    });
 }
