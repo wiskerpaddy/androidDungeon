@@ -1,5 +1,6 @@
 package com.example.androiddungeon
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.webkit.WebView
@@ -10,6 +11,8 @@ import androidx.annotation.RequiresApi
 import androidx.privacysandbox.tools.core.model.Type
 import android.view.WindowInsets
 import android.view.WindowInsetsController
+import android.webkit.JavascriptInterface
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
@@ -44,8 +47,19 @@ class MainActivity : AppCompatActivity() {
             controller.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
             controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+        webView.addJavascriptInterface(WebAppInterface(this), "AndroidApp")
 
         // assets内のindex.htmlを読み込む
         webView.loadUrl("file:///android_asset/www/index.html")
+    }
+}
+
+// 1. 保存用のインターフェースを定義
+class WebAppInterface(private val context: Context) {
+    @JavascriptInterface
+    fun saveWord(json: String) {
+        // 内部ストレージの「words.json」などに追記・保存する処理
+        val file = File(context.filesDir, "custom_words.json")
+        file.writeText(json)
     }
 }
