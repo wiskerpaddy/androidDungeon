@@ -36,10 +36,11 @@
             
             <div class="menu-buttons">
                 <button class="mode-btn" onclick="startStudyMode()">🗂 暗記カードモード</button>
+                <button class="mode-btn" style="background: #444;" onclick="openAddWordMode()">➕ 単語追加モード</button>
                 <button class="mode-btn" onclick="startAdventureMode()">⚔ 冒険モード</button>
             </div>
         </div>
-                
+
         <div id="main-area">
             <div id="hud"></div>
             <div id="screen"></div>
@@ -68,6 +69,18 @@
                 <div id="card-a" class="hidden">答えがここに表示されます</div>
             </div>
             <div class="study-footer">Tap or Enter to Flip / Next</div>
+        </div>
+
+        <div id="add-word-screen" style="display:none;" class="study-screen-style">
+            <div id="study-top">
+                <button class="lang-btn" onclick="closeAddWordMode()">🏠 Menu</button>
+            </div>
+            <div style="padding: 20px; text-align: center;">
+                <h2 style="color: #fff;">ADD WORD</h2>
+                <input type="text" id="word-front" placeholder="単語" style="width: 80%; padding: 10px; margin: 10px 0; background: #000; color: #fff; border: 1px solid #555;">
+                <input type="text" id="word-back" placeholder="意味" style="width: 80%; padding: 10px; margin: 10px 0; background: #000; color: #fff; border: 1px solid #555;">
+                <button onclick="addWordToAndroid()" style="width: 85%; padding: 15px; background: #228b22; color: white; border: none; font-weight: bold;">SAVE TO DEVICE</button>
+            </div>
         </div>
 
         <!-- <div id="screen"></div> -->

@@ -829,3 +829,16 @@ function updateCollectionUI() {
         listDiv.appendChild(item);
     });
 }
+
+// game.js の末尾などに追加
+function openAddWordMode() {
+    // タイトル画面を隠して、追加画面を出す
+    document.getElementById('guide-overlay').style.display = 'none';
+    document.getElementById('add-word-screen').style.display = 'block';
+}
+
+function closeAddWordMode() {
+    // 追加画面を隠して、タイトル画面に戻る
+    document.getElementById('add-word-screen').style.display = 'none';
+    document.getElementById('guide-overlay').style.display = 'flex';
+}
